@@ -138,3 +138,7 @@ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image
 - **편리성**: 개발 및 테스트 환경에서 매우 유용합니다. Docker 소켓을 사용하면, CI/CD 파이프라인이나 자동화된 스크립트에서도 쉽게 Docker 이미지를 스캔하고 결과를 얻을 수 있습니다.
 
 이러한 이유로 `/var/run/docker.sock`을 마운트하는 것은 `trivy`와 같은 도구를 사용하여 Docker 이미지를 효과적으로 스캔할 수 있도록 하는 중요한 단계입니다.
+
+## 참고자료
+#### > https://betterprogramming.pub/static-analysis-of-container-images-with-trivy-8d297c4f1dd3
+#### > https://faun.pub/how-to-scan-docker-images-e08a7b909ea0
