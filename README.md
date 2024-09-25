@@ -8,6 +8,12 @@
 > 이러한 과정에서 ***Trivy***를 발견하게 되었고, 관련 학습을 진행하게 되었습니다.
 
 
+## 👨‍💻Team
+
+|<img src="https://avatars.githubusercontent.com/u/139302518?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/78792358?v=4" width="100" height="100"/>|
+|:-:|:-:|
+|곽병찬<br/>[@gato-46](https://github.com/gato-46)|박현우<br/>[@smartcow99](https://github.com/smartcow99)|
+
 ![image](https://github.com/user-attachments/assets/d73ba76b-c9f5-416d-9683-ada643f1339d)
 
 > ##### [Trivy](https://trivy.dev/) is a comprehensive and versatile security scanner. 
