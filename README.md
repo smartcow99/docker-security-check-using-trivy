@@ -1,6 +1,6 @@
-# Docker-security-check-using-Trivy
+# Docker-security-check-using-Trivy🔎
 
-## 개요
+## 개요📑
 > 클라우드 환경에서 보안은 항상 중요한 문제로 자리잡고 있습니다.
 > 
 > 특히, Docker의 Container Image는 널리 사용되는 만큼 중요하다고 생각했습니다.
@@ -33,7 +33,7 @@
  - Software licenses
 
 
-## 실습
+## 실습💻
 > ##### Docker Container Image를 직접 만들어보고 취약점 검사를 진행하여 해결방법 제시
 
 #### 1. 환경설정
