@@ -88,7 +88,33 @@ CMD ["java", "Main"]
 
 ## Troubleshooting🔥
 > ##### 이미지가 로컬에 있지만, Trivy가 이미지를 원격 레지스트리에서 찾으려고 시도하는 문제 발생🤦‍♂️
-- trivytest라는 이미지는 로컬에서 확인되지만, Trivy가 해당 이미지를 원격 레지스트리에서 찾으려고 시도하는 문제를 `-v /var/run/docker.sock:/var/run/docker.sock`을 통해 docker 방식을 명시적으로 지정하고 로컬 이미지를 스캔하는 방식으로 변경하여 문제 해결
+- trivytest라는 이미지는 로컬에서 확인되지만, Trivy가 해당 이미지를 원격 레지스트리에서 찾으려고 시도하는 문제를 확인했습니다.
+- `-v /var/run/docker.sock:/var/run/docker.sock`을 통해 docker 방식을 명시적으로 지정하고 로컬 이미지를 스캔하는 방식으로 변경하여 문제 해결하였습니다.
+
+
+기존 코드
 ```bash
-> docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity HIGH,CRITICAL trivytest
+docker run --rm aquasec/trivy image trivytest
 ```
+변경 코드
+```bash
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity HIGH,CRITICAL trivytest
+```
+
+> ##### -v /var/run/docker.sock:/var/run/docker.sock을 사용한 이유
+#### Docker Daemon 접근
+
+- **Docker 소켓 파일**: `/var/run/docker.sock`는 Docker 데몬과의 통신을 위한 소켓 파일입니다. 이 파일을 통해 Docker 클라이언트가 Docker 데몬에 명령을 전달합니다.
+- **컨테이너에서 Docker 사용**: 기본적으로 Docker 컨테이너는 호스트 시스템의 Docker daemon에 직접 접근할 수 없습니다. 하지만 이 소켓 파일을 컨테이너에 마운트하면, 컨테이너 내에서 Docker 명령어를 실행하여 호스트의 Docker 환경에 접근할 수 있게 됩니다.
+
+#### 스캔할 이미지 찾기
+
+- **이미지 접근**: `trivy`는 스캔할 이미지를 찾기 위해 Docker daemon에 요청을 보냅니다. 따라서 컨테이너가 `/var/run/docker.sock`을 통해 Docker daemon에 접근할 수 있어야 합니다.
+- **로컬 이미지 스캔**: `trivy`는 주로 로컬 Docker 이미지나 컨테이너를 스캔하는 데 사용됩니다. Docker 소켓을 마운트함으로써, `trivy`가 해당 이미지를 조회하고 분석할 수 있는 권한을 부여받게 됩니다.
+
+#### 보안 및 편리성
+
+- **보안**: 이 방식은 간단하고 효과적이지만, 보안에 유의해야 합니다. 컨테이너가 Docker daemon에 접근할 수 있다는 것은, 해당 컨테이너가 호스트의 모든 Docker 리소스에 접근할 수 있다는 의미이므로, 신뢰할 수 있는 이미지와 환경에서만 사용하는 것이 좋습니다.
+- **편리성**: 개발 및 테스트 환경에서 매우 유용합니다. Docker 소켓을 사용하면, CI/CD 파이프라인이나 자동화된 스크립트에서도 쉽게 Docker 이미지를 스캔하고 결과를 얻을 수 있습니다.
+
+이러한 이유로 `/var/run/docker.sock`을 마운트하는 것은 `trivy`와 같은 도구를 사용하여 Docker 이미지를 효과적으로 스캔할 수 있도록 하는 중요한 단계입니다.
