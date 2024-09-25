@@ -1,5 +1,13 @@
 # Docker-security-check-using-Trivy
 
+## 개요
+> 클라우드 환경에서 보안은 항상 중요한 문제로 자리잡고 있습니다.
+> 
+> 특히, Docker의 Container Image는 널리 사용되는 만큼 중요하다고 생각했습니다.
+> 
+> 이러한 과정에서 ***Trivy***를 발견하게 되었고, 관련 학습을 진행하게 되었습니다.
+
+
 ![image](https://github.com/user-attachments/assets/d73ba76b-c9f5-416d-9683-ada643f1339d)
 
 > ##### [Trivy](https://trivy.dev/) is a comprehensive and versatile security scanner. 
@@ -26,13 +34,14 @@
 
 
 ## 실습
-> ##### Docker Container Image를 대상으로 취약점 검사
+> ##### Docker Container Image를 직접 만들어보고 취약점 검사를 진행하여 해결방법 제시
 
-#### 1. 
+#### 1. 환경설정
 ```bash
 > docker run aquasec/trivy
 ```
 
+#### 2. Docker Image 생성
 > Main.java
 ```java
 public class Main{
@@ -55,9 +64,14 @@ CMD ["java", "Main"]
 > docker build -t trivytest
 ```
 
+#### 3. Trivy를 사용하여 취약점 검사
+
 ```bash
 > docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity HIGH,CRITICAL trivytest
 ```
+
+#### 4. 취약점과 해결 방법 정리
+
 
 | 라이브러리  | 취약점  | 심각도 | 문제 설명  | 해결 방법  | 설치된 버전  | 수정된 버전  |
 |-------------|---------|--------|------------|------------|--------------|--------------|
